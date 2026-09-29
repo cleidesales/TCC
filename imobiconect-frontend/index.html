@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ImobiConect - encontre imóveis para aluguel e venda.">
+  <title>ImobiConect | Imóveis</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Página inicial ImobiConect">
+      <span class="brand-icon" aria-hidden="true">⌂</span>
+      <span>ImobiConect</span>
+    </a>
+
+    <nav class="nav" aria-label="Navegação principal">
+      <a href="#imoveis">Imóveis</a>
+      <button class="link-button" id="openLogin">Entrar</button>
+      <button class="primary small" id="openAdvertise">Anunciar imóvel</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Encontre seu próximo imóvel</p>
+        <h1>Alugue ou compre de forma mais simples.</h1>
+        <p class="hero-text">Consulte anúncios em um só lugar e filtre as opções de acordo com o que você procura.</p>
+
+        <form class="search-bar" id="searchForm">
+          <label class="sr-only" for="search">Pesquisar imóvel ou bairro</label>
+          <span aria-hidden="true">⌕</span>
+          <input id="search" type="search" placeholder="Pesquise por bairro ou imóvel">
+          <button class="primary" type="submit">Buscar</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="content" id="imoveis">
+      <aside class="filters" id="filters">
+        <div class="filter-heading">
+          <div>
+            <span class="eyebrow">Refine sua busca</span>
+            <h2>Filtros</h2>
+          </div>
+          <button class="icon-button mobile-only" id="closeFilters" aria-label="Fechar filtros">×</button>
+        </div>
+
+        <fieldset>
+          <legend>Finalidade</legend>
+          <div class="segmented">
+            <label><input type="radio" name="purpose" value="todos" checked><span>Todos</span></label>
+            <label><input type="radio" name="purpose" value="alugar"><span>Alugar</span></label>
+            <label><input type="radio" name="purpose" value="comprar"><span>Comprar</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Quantidade de quartos</legend>
+          <div class="rooms">
+            <label><input type="radio" name="rooms" value="0" checked><span>Todos</span></label>
+            <label><input type="radio" name="rooms" value="1"><span>1</span></label>
+            <label><input type="radio" name="rooms" value="2"><span>2</span></label>
+            <label><input type="radio" name="rooms" value="3"><span>3</span></label>
+            <label><input type="radio" name="rooms" value="4"><span>+4</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Faixa de preço</legend>
+          <div class="price-grid">
+            <label>Valor mínimo<input id="minPrice" type="number" min="0" placeholder="R$ 0"></label>
+            <label>Valor máximo<input id="maxPrice" type="number" min="0" placeholder="R$ 5.000"></label>
+          </div>
+        </fieldset>
+
+        <button class="primary full" id="applyFilters" type="button">Aplicar filtros</button>
+        <button class="secondary full" id="clearFilters" type="button">Limpar filtros</button>
+      </aside>
+
+      <section class="list-area">
+        <div class="list-header">
+          <div>
+            <span class="eyebrow">Imóveis disponíveis</span>
+            <h2>Encontre uma opção para você</h2>
+          </div>
+          <button class="secondary mobile-filter" id="openFilters">Filtrar</button>
+        </div>
+        <p class="results" id="resultsCount"></p>
+        <div class="property-grid" id="propertyGrid"></div>
+        <div class="empty-state hidden" id="emptyState">
+          <h3>Nenhum imóvel encontrado</h3>
+          <p>Tente alterar os filtros ou o termo pesquisado.</p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <strong>ImobiConect</strong>
+    <span>Protótipo funcional — TCC</span>
+  </footer>
+
+  <dialog id="propertyDialog" class="modal">
+    <button class="modal-close" data-close="propertyDialog" aria-label="Fechar">×</button>
+    <div id="propertyDetails"></div>
+  </dialog>
+
+  <dialog id="loginDialog" class="modal auth-modal">
+    <button class="modal-close" data-close="loginDialog" aria-label="Fechar">×</button>
+    <p class="eyebrow">Área do anunciante</p>
+    <h2>Entrar</h2>
+    <form id="loginForm" class="stack">
+      <label>E-mail<input type="email" required placeholder="seuemail@exemplo.com"></label>
+      <label>Senha<input type="password" required minlength="6" placeholder="••••••"></label>
+      <button class="primary full" type="submit">Entrar</button>
+      <p class="form-note">Demonstração do front-end. A autenticação será conectada ao back-end Node.js/Express.</p>
+    </form>
+  </dialog>
+
+  <dialog id="advertiseDialog" class="modal form-modal">
+    <button class="modal-close" data-close="advertiseDialog" aria-label="Fechar">×</button>
+    <p class="eyebrow">Área do anunciante</p>
+    <h2>Anunciar imóvel</h2>
+    <form id="propertyForm" class="stack">
+      <div class="form-grid">
+        <label>Título<input name="title" required placeholder="Ex.: Casa com 2 quartos"></label>
+        <label>Finalidade
+          <select name="purpose" required>
+            <option value="alugar">Alugar</option>
+            <option value="comprar">Vender</option>
+          </select>
+        </label>
+        <label>Tipo
+          <select name="type" required>
+            <option>Casa</option><option>Apartamento</option><option>Terreno</option><option>Outro</option>
+          </select>
+        </label>
+        <label>Valor<input name="price" type="number" min="0" required></label>
+        <label>Bairro<input name="neighborhood" required placeholder="Ex.: Centro"></label>
+        <label>Quartos<input name="rooms" type="number" min="0" required></label>
+        <label>Banheiros<input name="bathrooms" type="number" min="0" value="1"></label>
+        <label>Garagem
+          <select name="garage"><option>Sim</option><option>Não</option></select>
+        </label>
+      </div>
+      <label>Ponto de referência (opcional)<input name="reference" placeholder="Ex.: próximo à praça"></label>
+      <label>Descrição<textarea name="description" rows="4" required placeholder="Descreva as principais características do imóvel"></textarea></label>
+      <label>URL da foto (temporário)<input name="image" type="url" placeholder="https://..."></label>
+      <button class="primary full" type="submit">Adicionar ao protótipo</button>
+      <p class="form-note">O endereço completo não é exibido publicamente. Neste front-end os novos anúncios ficam apenas nesta sessão; depois o formulário será conectado à API.</p>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
